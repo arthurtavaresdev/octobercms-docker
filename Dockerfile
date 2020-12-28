@@ -50,12 +50,6 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl
 RUN docker-php-ext-configure intl
 
-# Xdebug config
-COPY ./xdebug.ini /usr/local/etc/php/conf.d/
-
-# Apache config
-COPY ./apache2.conf /etc/apache2/
-
 # Enable apache mods
 RUN a2enmod rewrite
 RUN a2enmod headers
