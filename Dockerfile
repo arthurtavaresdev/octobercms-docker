@@ -28,6 +28,7 @@ RUN apt-get -yqq update && apt-get -yqq install \
     libicu-dev \
     libjpeg62-turbo-dev \
     libkrb5-dev \
+    libmagickwand-dev \
     libmcrypt-dev \
     libonig-dev \
     libpq-dev \
@@ -42,19 +43,22 @@ RUN apt-get -yqq update && apt-get -yqq install \
     zlib1g-dev
 
 # Install PECL extensions
-RUN pecl install mcrypt-1.0.4 redis xdebug
-RUN docker-php-ext-enable mcrypt redis xdebug
+RUN pecl install \
+    imagick \
+    mcrypt-1.0.4 \
+    redis \
+    xdebug
+
+RUN docker-php-ext-enable \
+    imagick \
+    mcrypt \
+    redis \
+    xdebug
 
 # Configure php extensions
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl
 RUN docker-php-ext-configure intl
-
-# Xdebug config
-COPY ./xdebug.ini /usr/local/etc/php/conf.d/
-
-# Apache config
-COPY ./apache2.conf /etc/apache2/
 
 # Enable apache mods
 RUN a2enmod rewrite
