@@ -40,7 +40,8 @@ RUN apt-get -yqq update && apt-get -yqq install \
     openssl \
     unzip \
     zip \
-    zlib1g-dev
+    zlib1g-dev \
+    libwebp-dev
 
 # Install PECL extensions
 RUN pecl install \
@@ -56,7 +57,7 @@ RUN docker-php-ext-enable \
     xdebug
 
 # Configure php extensions
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg
+RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp
 RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl
 RUN docker-php-ext-configure intl
 
